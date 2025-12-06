@@ -25,5 +25,6 @@ class Figure:
         self.position = to_position
         self.has_moved = True
     
+    # Возвращение типа фигуры
     def get_type(self):
         return self.figure_type
