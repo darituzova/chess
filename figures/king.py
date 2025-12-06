@@ -1,4 +1,4 @@
-from figure import Figure
+from .figure import Figure
 
 # Класс - король, от Figure
 class King(Figure):
