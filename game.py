@@ -362,10 +362,3 @@ class Game:
         # Нотация для взятия на проходе всегда включает столбец начальной клетки пешки
         notation = f'{start_ceil_notation[0]}x{end_ceil_notation}'
         return notation
-
-
-if __name__ == '__main__':
-    game = Game()
-    game.start_game()
-
-# Правила написать
