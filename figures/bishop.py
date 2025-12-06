@@ -1,6 +1,5 @@
 from .figure import Figure
 
-
 class Bishop(Figure):
 
     # Инициализирует слона
