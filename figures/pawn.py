@@ -1,4 +1,4 @@
-from figure import Figure
+from .figure import Figure
 
 # Класс Пешка, от Figure
 class Pawn(Figure):
