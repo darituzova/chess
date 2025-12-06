@@ -45,3 +45,4 @@ class Rook(Figure):
                 # Выход за пределы доски
                 else:
                     break
+        return moves
