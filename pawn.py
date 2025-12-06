@@ -46,5 +46,3 @@ class Pawn(Figure):
             if row + direction == en_passant_row and abs(col - en_passant_col) == 1:
                 moves.append((en_passant_row, en_passant_col))
         return moves
-
-#помогите
