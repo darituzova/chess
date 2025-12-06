@@ -1,4 +1,4 @@
-from figure import Figure
+from .figure import Figure
 
 # Класс - ладья, от Figure
 class Rook(Figure):
