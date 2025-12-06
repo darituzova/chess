@@ -1,3 +1,6 @@
+from figure import Figure
+
+# Класс Пешка, от Figure
 class Pawn(Figure):
 
     # Инициализирует пешку
