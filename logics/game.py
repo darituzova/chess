@@ -1,4 +1,4 @@
-from board import Board
+from .board import Board
 from PyQt5.QtWidgets import QInputDialog
 
 

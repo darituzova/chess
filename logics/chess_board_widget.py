@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QPixmap, QPainter, QPen, QColor, QFont
 from PyQt5.QtCore import Qt
 
-from game import Game
+from .game import Game
 
 
 class PieceSprite(QGraphicsPixmapItem):
