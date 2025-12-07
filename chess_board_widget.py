@@ -82,6 +82,10 @@ class ChessBoardWidget(QGraphicsView):
         self.is_game_over = False
         self.parent_window = parent.window() if parent is not None else None
 
+        # имена игроков
+        self.white_player_name = "Белые"
+        self.black_player_name = "Чёрные"
+
         self._init_view()
         self._draw_board()
         self._draw_coordinates()
@@ -91,6 +95,11 @@ class ChessBoardWidget(QGraphicsView):
         self.current_move_edit = move_edit
         self.player_info_label = player_label
         self.timer_label = timer_label
+        self._update_player_info()
+
+    def set_players(self, white_name, black_name):
+        self.white_player_name = white_name or "Белые"
+        self.black_player_name = black_name or "Чёрные"
         self._update_player_info()
 
     def make_move_from_text(self):
@@ -108,13 +117,16 @@ class ChessBoardWidget(QGraphicsView):
             current_color = self.game.current_player
             is_in_check_before = self.game.board.is_check(current_color)
 
-            # 1. Рокировка из game.py: "рокировка k" / "рокировка q"
+            # рокировка: "рокировка k" / "рокировка q"
             if move_text == "рокировка k":
-                start_row, start_col, end_row, end_col = self.game.handle_castling("kingside")
+                start_row, start_col, end_row, end_col = self.game.handle_castling(
+                    "kingside"
+                )
             elif move_text == "рокировка q":
-                start_row, start_col, end_row, end_col = self.game.handle_castling("queenside")
+                start_row, start_col, end_row, end_col = self.game.handle_castling(
+                    "queenside"
+                )
             else:
-                # 2. Обычный ход в формате "e2 e4"
                 parts = move_text.split()
                 if len(parts) != 2:
                     raise ValueError('Формат: "e2 e4"')
@@ -124,7 +136,6 @@ class ChessBoardWidget(QGraphicsView):
                 start_row, start_col = self._move_player_to_board_coords(start)
                 end_row, end_col = self._move_player_to_board_coords(end)
 
-            # 3. Пытаемся сделать ход (try_move из Game со всей логикой, включая рокировку)
             success = self.game.try_move(start_row, start_col, end_row, end_col)
 
             if not success:
@@ -139,25 +150,11 @@ class ChessBoardWidget(QGraphicsView):
                     QMessageBox.warning(self, "Неверный ход", "Попробуйте другой ход.")
                 return False
 
-            # 4. Ход успешен: перерисовка
             self._draw_pieces()
             self.current_move_edit.clear()
 
             opponent = "black" if current_color == "white" else "white"
             self._handle_check_and_mate(opponent)
-
-            if not self.is_game_over:
-                self.game.current_player = opponent
-                self._update_player_info()
-
-            return True
-
-        except ValueError as e:
-            QMessageBox.warning(self, "Ошибка ввода", str(e))
-            return False
-        except Exception as e:
-            QMessageBox.warning(self, "Ошибка", f"Неожиданная ошибка: {str(e)}")
-            return False
 
             if not self.is_game_over:
                 self.game.current_player = opponent
@@ -202,7 +199,10 @@ class ChessBoardWidget(QGraphicsView):
 
     def _update_player_info(self):
         if self.player_info_label:
-            text = "Ход: Белые" if self.game.current_player == "white" else "Ход: Черные"
+            if self.game.current_player == "white":
+                text = f"Ход: {self.white_player_name}"
+            else:
+                text = f"Ход: {self.black_player_name}"
             self.player_info_label.setText(text)
 
     def set_piece_style(self, style):
