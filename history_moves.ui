@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HistoryMovesWindow</class>
+ <widget class="QMainWindow" name="HistoryMovesWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>История ходов</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #fefefe;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="mainLayout">
+    <property name="leftMargin">
+     <number>30</number>
+    </property>
+    <property name="topMargin">
+     <number>20</number>
+    </property>
+    <property name="rightMargin">
+     <number>30</number>
+    </property>
+    <property name="bottomMargin">
+     <number>20</number>
+    </property>
+    <property name="spacing">
+     <number>18</number>
+    </property>
+    <!-- Заголовок -->
+    <item>
+     <widget class="QLabel" name="titleLabel">
+      <property name="text">
+       <string>История ходов партии</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: #1e3a5f; background-color: #dbeafe; padding: 14px; border-radius: 16px; border: 1px solid #93c5fd;</string>
+      </property>
+     </widget>
+    </item>
+    <!-- Список ходов -->
+    <item>
+     <widget class="QGroupBox" name="movesGroupBox">
+      <property name="title">
+       <string>Ходы партии</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox { font-weight: bold; border: 1px solid #d1d5db; border-radius: 8px; margin-top: 8px; } QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 4px; }</string>
+      </property>
+      <layout class="QVBoxLayout" name="movesLayout">
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <property name="bottomMargin">
+        <number>10</number>
+       </property>
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QTextEdit" name="movesTextEdit">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QTextEdit { background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px; font-family: monospace; font-size: 12px; }</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <!-- Кнопки -->
+    <item>
+     <layout class="QHBoxLayout" name="buttonsLayout">
+      <property name="spacing">
+       <number>12</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="closeButton">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Закрыть</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+QPushButton {
+    color: white;
+    background-color: #6b7280;
+    border: 1px solid #4b5563;
+    border-radius: 12px;
+    padding: 8px;
+    font-weight: bold;
+}
+QPushButton:hover {
+    background-color: #9ca3af;
+}
+QPushButton:pressed {
+    background-color: #4b5563;
+}
+         </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
