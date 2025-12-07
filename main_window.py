@@ -13,30 +13,38 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         loadUi("main_window.ui", self)
 
-        # читаем настройки
+        # читаем текущий стиль фигур из настроек
         self.settings = QSettings("MyChessApp", "ChessSettings")
         piece_style = self.settings.value("piece_style", "classic")
 
+        # контейнер под доску
         layout = QVBoxLayout(self.chessBoardFrame)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
 
         # создаём доску с выбранным стилем
-        self.chess_board = ChessBoardWidget(self.chessBoardFrame, piece_style=piece_style)
+        self.chess_board = ChessBoardWidget(
+            self.chessBoardFrame,
+            piece_style=piece_style,
+        )
         layout.addWidget(self.chess_board)
 
+        # имена игроков
         self.white_name = white_name or "Белые"
         self.black_name = black_name or "Чёрные"
         self.chess_board.set_players(self.white_name, self.black_name)
 
+        # кнопка "Сделать ход"
         self.makeMoveButton.clicked.connect(self.chess_board.make_move_from_text)
 
+        # UI-связки
         self.chess_board.set_ui_elements(
             self.currentMoveEdit,
             self.playerInfoLabel,
             self.timerLabel,
         )
 
+        # колбэк окончания игры
         self.chess_board.game_over_callback = self.show_final_window
 
     def show_final_window(self, result_text, winner_color, loser_color):
@@ -60,6 +68,8 @@ class MainWindow(QMainWindow):
 
         def play_again():
             if parent_menu is not None:
+                # при новой игре снова читаем стиль из настроек,
+                # так что изменения из окна настроек учтутся
                 new_game = MainWindow(self.white_name, self.black_name, parent=parent_menu)
                 new_game.show()
 
