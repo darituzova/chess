@@ -1,97 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>MainMenu</class>
+ <widget class="QMainWindow" name="MainMenu">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>790</height>
+    <width>800</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Chess Game</string>
+   <string>Chess Game - Главное меню</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #fefefe;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="mainLayout">
-    <!-- расстояние между доской и правой панелью -->
-    <property name="spacing">
-     <number>12</number>
-    </property>
+   <layout class="QVBoxLayout" name="mainLayout">
     <property name="leftMargin">
-     <number>10</number>
+     <number>40</number>
     </property>
     <property name="topMargin">
-     <number>10</number>
+     <number>30</number>
     </property>
     <property name="rightMargin">
-     <number>10</number>
+     <number>40</number>
     </property>
     <property name="bottomMargin">
-     <number>10</number>
+     <number>30</number>
     </property>
+    <property name="spacing">
+     <number>20</number>
+    </property>
+
     <item>
-     <widget class="QFrame" name="chessBoardFrame">
-      <!-- доска чуть уже, чтобы правая часть была ближе -->
-      <property name="minimumSize">
-       <size>
-        <width>690</width>
-        <height>690</height>
-       </size>
+     <widget class="QLabel" name="titleLabel">
+      <property name="text">
+       <string>Шахматы</string>
       </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="styleSheet">
-       <string notr="true"></string>
+       <string notr="true">color: #1e3a5f; background-color: #dbeafe; padding: 18px; border-radius: 18px; border: 1px solid #93c5fd;</string>
       </property>
      </widget>
     </item>
+
     <item>
-     <layout class="QVBoxLayout" name="rightPanelLayout">
+     <layout class="QVBoxLayout" name="playersLayout">
+      <property name="spacing">
+       <number>12</number>
+      </property>
       <item>
-       <widget class="QLabel" name="playerInfoLabel">
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Ход: Белые</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: #1e3a5f; background-color: #dbeafe; padding: 12px; border-radius: 15px; border: 1px solid #93c5fd;</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="currentMoveEdit">
+       <widget class="QLineEdit" name="whitePlayerEdit">
         <property name="placeholderText">
-         <string>e2 e4</string>
+         <string>Имя игрока за белых</string>
         </property>
         <property name="styleSheet">
-         <string notr="true">color: #374151; background-color: white; border: 1px solid #d1d5db; padding: 8px; border-radius: 8px; font-family: monospace; font-size: 14px;</string>
+         <string notr="true">color: #111827; background-color: white; border: 1px solid #d1d5db; padding: 8px; border-radius: 8px; font-size: 14px;</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="makeMoveButton">
+       <widget class="QLineEdit" name="blackPlayerEdit">
+        <property name="placeholderText">
+         <string>Имя игрока за чёрных</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: #111827; background-color: white; border: 1px solid #d1d5db; padding: 8px; border-radius: 8px; font-size: 14px;</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <item>
+     <layout class="QVBoxLayout" name="buttonsLayout">
+      <property name="spacing">
+       <number>12</number>
+      </property>
+
+      <item>
+       <widget class="QPushButton" name="startGameButton">
         <property name="minimumSize">
          <size>
-          <width>140</width>
-          <height>42</height>
+          <width>180</width>
+          <height>44</height>
          </size>
         </property>
         <property name="text">
-         <string>Сделать ход</string>
+         <string>Начать игру</string>
         </property>
         <property name="styleSheet">
          <string notr="true">
@@ -99,7 +105,7 @@ QPushButton {
     color: white;
     background-color: #3b82f6;
     border: 1px solid #2563eb;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 10px;
     font-weight: bold;
     font-size: 16px;
@@ -114,92 +120,17 @@ QPushButton:pressed {
         </property>
        </widget>
       </item>
+
       <item>
-       <spacer name="verticalSpacerTop">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="surrenderButton">
+       <widget class="QPushButton" name="settingsButton">
         <property name="minimumSize">
          <size>
-          <width>140</width>
-          <height>42</height>
+          <width>180</width>
+          <height>44</height>
          </size>
         </property>
         <property name="text">
-         <string>Сдаться</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">
-QPushButton {
-    color: white;
-    background-color: #ef4444;
-    border: 1px solid #dc2626;
-    border-radius: 12px;
-    padding: 10px;
-    font-weight: bold;
-    font-size: 16px;
-}
-QPushButton:hover {
-    background-color: #f87171;
-}
-QPushButton:pressed {
-    background-color: #dc2626;
-}
-         </string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="drawButton">
-        <property name="minimumSize">
-         <size>
-          <width>140</width>
-          <height>42</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Ничья</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">
-QPushButton {
-    color: white;
-    background-color: #fbbf24;
-    border: 1px solid #f59e0b;
-    border-radius: 12px;
-    padding: 10px; font-weight: bold;
-    font-size: 16px;
-}
-QPushButton:hover {
-    background-color: #fcd34d;
-}
-QPushButton:pressed {
-    background-color: #f59e0b;
-}
-         </string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menuButton">
-        <property name="minimumSize">
-         <size>
-          <width>140</width>
-          <height>42</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Меню</string>
+         <string>Настройки</string>
         </property>
         <property name="styleSheet">
          <string notr="true">
@@ -207,7 +138,7 @@ QPushButton {
     color: white;
     background-color: #60a5fa;
     border: 1px solid #3b82f6;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 10px;
     font-weight: bold;
     font-size: 16px;
@@ -222,16 +153,17 @@ QPushButton:pressed {
         </property>
        </widget>
       </item>
+
       <item>
-       <widget class="QPushButton" name="historyButton">
+       <widget class="QPushButton" name="statsButton">
         <property name="minimumSize">
          <size>
-          <width>140</width>
-          <height>42</height>
+          <width>180</width>
+          <height>44</height>
          </size>
         </property>
         <property name="text">
-         <string>История</string>
+         <string>Статистика</string>
         </property>
         <property name="styleSheet">
          <string notr="true">
@@ -239,7 +171,7 @@ QPushButton {
     color: white;
     background-color: #34d399;
     border: 1px solid #10b981;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 10px;
     font-weight: bold;
     font-size: 16px;
@@ -254,56 +186,42 @@ QPushButton:pressed {
         </property>
        </widget>
       </item>
+
       <item>
-       <spacer name="verticalSpacerButtons">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
+       <widget class="QPushButton" name="exitButton">
+        <property name="minimumSize">
          <size>
-          <width>20</width>
-          <height>30</height>
+          <width>180</width>
+          <height>44</height>
          </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <spacer name="verticalSpacerTimer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Expanding</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLabel" name="timerLabel">
-        <property name="font">
-         <font>
-          <pointsize>18</pointsize>
-          <bold>true</bold>
-         </font>
         </property>
         <property name="text">
-         <string>00:30</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <string>Выход</string>
         </property>
         <property name="styleSheet">
-         <string notr="true">color: #059669; padding: 12px; background-color: #ecfdf5; border-radius: 10px; border: 1px solid #a7f3d0;</string>
+         <string notr="true">
+QPushButton {
+    color: white;
+    background-color: #ef4444;
+    border: 1px solid #dc2626;
+    border-radius: 14px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+QPushButton:hover {
+    background-color: #f87171;
+}
+QPushButton:pressed {
+    background-color: #dc2626;
+}
+         </string>
         </property>
        </widget>
       </item>
      </layout>
     </item>
+
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -311,7 +229,7 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1200</width>
+     <width>800</width>
      <height>22</height>
     </rect>
    </property>
