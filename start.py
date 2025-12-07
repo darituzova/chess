@@ -2,7 +2,7 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-from main_menu import MainMenu
+from windows.main_menu import MainMenu
 
 
 def main():
