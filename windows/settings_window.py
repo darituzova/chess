@@ -1,4 +1,5 @@
 # settings_window.py
+import os
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUi
@@ -8,7 +9,17 @@ from PyQt5.QtCore import QSettings
 class SettingsWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
-        loadUi("settings_window.ui", self)
+        # Получаем путь к текущему файлу
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # Переходим на уровень выше (из windows в корень проекта)
+        project_root = os.path.dirname(current_dir)
+        
+        # Формируем путь к файлу ui
+        ui_path = os.path.join(project_root, "ui", "settings_window.ui")
+        
+        # Загружаем UI файл
+        loadUi(ui_path, self)
 
         self.settings = QSettings("MyChessApp", "ChessSettings")
 

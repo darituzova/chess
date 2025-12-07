@@ -1,6 +1,10 @@
+import os
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUi
+
+# Импортируем и создаем окно истории
+from .history_moves import HistoryMovesWindow
 
 
 class FinalWindow(QMainWindow):
@@ -17,7 +21,18 @@ class FinalWindow(QMainWindow):
             moves_history=None  # Новый параметр для хранения истории ходов
     ):
         super().__init__(parent)
-        loadUi("final_window.ui", self)
+        
+        # Получаем путь к текущему файлу
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # Переходим на уровень выше (из windows в корень проекта)
+        project_root = os.path.dirname(current_dir)
+        
+        # Формируем путь к файлу ui
+        ui_path = os.path.join(project_root, "ui", "final_window.ui")
+        
+        # Загружаем UI файл
+        loadUi(ui_path, self)
 
         # Устанавливаем данные из параметров
         self.resultLabel.setText(result_text)
@@ -63,8 +78,6 @@ class FinalWindow(QMainWindow):
         print(f"DEBUG: Найдено ходов: {len(self.moves_history)}")
 
         try:
-            # Импортируем и создаем окно истории
-            from history_moves import HistoryMovesWindow
             history_window = HistoryMovesWindow(self.moves_history, parent=self)
             history_window.show()
             print("DEBUG: Окно истории открыто успешно")

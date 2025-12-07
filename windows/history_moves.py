@@ -1,3 +1,4 @@
+import os
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUi
@@ -8,7 +9,17 @@ from PyQt5.QtGui import QTextCursor
 class HistoryMovesWindow(QMainWindow):
     def __init__(self, moves_history=None, parent=None):
         super().__init__(parent)
-        loadUi('history_moves.ui', self)
+        # Получаем путь к текущему файлу
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # Переходим на уровень выше (из windows в корень проекта)
+        project_root = os.path.dirname(current_dir)
+        
+        # Формируем путь к файлу ui
+        ui_path = os.path.join(project_root, "ui", "history_moves.ui")
+        
+        # Загружаем UI файл
+        loadUi(ui_path, self)
 
         self.moves_history = moves_history or []
         self.parent_window = parent

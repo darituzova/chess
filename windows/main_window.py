@@ -13,10 +13,10 @@ from PyQt5.QtCore import QSettings, QTimer
     # QSettings – хранение настроек, QTimer – таймер для времени партии
 from PyQt5.uic import loadUi
 
-from chess_board_widget import ChessBoardWidget
-from final_window import FinalWindow
-from history_moves import HistoryMovesWindow
-from settings_window import SettingsWindow
+from logics.chess_board_widget import ChessBoardWidget
+from .final_window import FinalWindow
+from .history_moves import HistoryMovesWindow
+from .settings_window import SettingsWindow
 
 # Файл для хранения статистики игроков
 STATS_FILE = "data/stats.json"
@@ -28,9 +28,18 @@ class MainWindow(QMainWindow):
     def __init__(self, white_name: str = "", black_name: str = "", parent=None):
         super().__init__(parent)
 
-        # Загружаем интерфейс из main_window.ui
-        loadUi("main_window.ui", self)
-
+        # Получаем путь к текущему файлу
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # Переходим на уровень выше (из windows в корень проекта)
+        project_root = os.path.dirname(current_dir)
+        
+        # Формируем путь к файлу ui
+        ui_path = os.path.join(project_root, "ui", "main_window.ui")
+        
+        # Загружаем UI файл
+        loadUi(ui_path, self)
+        
         # Гарантируем существование папки под данные
         os.makedirs("data", exist_ok=True)
 
@@ -212,7 +221,7 @@ class MainWindow(QMainWindow):
     def go_to_menu(self) -> None:
         """Открыть главное меню (MainMenu из main_menu.py)."""
         try:
-            from main_menu import MainMenu
+            from .main_menu import MainMenu
 
             menu_window = MainMenu()
             menu_window.show()
@@ -263,20 +272,34 @@ class MainWindow(QMainWindow):
         def menu_callback():
             self.go_to_menu()
 
-        # Колбэк для кнопки "Играть снова" во финальном окне
         def play_again_callback():
             """
             Создаём новое окно игры с теми же игроками.
             Старое главное окно можно закрыть.
             """
+            # Сохраняем ссылку на родительское меню, если оно нужно
+            parent = self.parent() if hasattr(self, 'parent') else None
+            
+            # Сохраняем имена игроков
+            white_name = getattr(self, 'white_name', 'Белые')
+            black_name = getattr(self, 'black_name', 'Черные')
+            
+            # Закрываем текущее окно
+            self.close()
+            
+            # Проверяем, не уничтожен ли уже родитель
+            if parent and parent.isWidgetType() and not parent.isHidden():
+                parent_menu = parent
+            else:
+                parent_menu = None
+            
+            # Создаем новое окно
             new_window = MainWindow(
-                self.white_name,
-                self.black_name,
-                parent=self.parent_menu,
+                white_name,
+                black_name,
+                parent=parent_menu,
             )
             new_window.show()
-            # Текущее (старое) окно можно закрыть, чтобы не плодить окна
-            self.close()
 
         # Создаём и настраиваем финальное окно
         self.final_window = FinalWindow(
@@ -341,6 +364,12 @@ class MainWindow(QMainWindow):
             self.update_player_stats(draw=True)
             # Показываем итоговое окно
             self.show_final_window("Партия завершилась ничьёй")
+        else:
+            # Уведомление об отказе от ничьей
+            QMessageBox.information(
+                self,
+                "Ничья отклонена",
+                f"{proposer_name} получил отказ в ничьей.")
 
 
 # Возможность запускать окно напрямую из этого файла
