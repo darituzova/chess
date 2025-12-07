@@ -1,9 +1,10 @@
 # main_window.py
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QMessageBox
 from PyQt5.uic import loadUi
 
 from chess_board_widget import ChessBoardWidget
+from final_window import FinalWindow
 
 
 class MainWindow(QMainWindow):
@@ -11,31 +12,76 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         loadUi("main_window.ui", self)
 
+        # контейнер для доски
         layout = QVBoxLayout(self.chessBoardFrame)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
 
+        # виджет доски
         self.chess_board = ChessBoardWidget(self.chessBoardFrame, piece_style="basics")
         layout.addWidget(self.chess_board)
 
-        # если имя пустое – используем по умолчанию
-        if not white_name:
-            white_name = "Белые"
-        if not black_name:
-            black_name = "Чёрные"
+        # имена игроков
+        self.white_name = white_name or "Белые"
+        self.black_name = black_name or "Чёрные"
 
-        # передаем имена в виджет доски
-        self.chess_board.set_players(white_name, black_name)
+        self.chess_board.set_players(self.white_name, self.black_name)
 
-        # подключаем кнопку "Сделать ход"
+        # кнопка "Сделать ход"
         self.makeMoveButton.clicked.connect(self.chess_board.make_move_from_text)
 
-        # связываем UI элементы
+        # проброс UI-элементов в виджет доски
         self.chess_board.set_ui_elements(
             self.currentMoveEdit,
             self.playerInfoLabel,
             self.timerLabel,
         )
+
+        # колбэк окончания игры: вызывается из ChessBoardWidget при мате
+        self.chess_board.game_over_callback = self.show_final_window
+
+    def show_final_window(self, result_text, winner_color, loser_color):
+        """
+        Вызывается из ChessBoardWidget при окончании игры (мат).
+        Создаёт независимое окно с результатами и закрывает окно игры.
+        """
+        white_stats = f"{self.white_name}: 0 побед, 0 поражений, 0 ничьих"
+        black_stats = f"{self.black_name}: 0 побед, 0 поражений, 0 ничьих"
+        game_time = self.timerLabel.text() if self.timerLabel is not None else "00:00"
+
+        # независимое окно результатов (parent=None)
+        final = FinalWindow(
+            result_text=result_text,
+            white_stats=white_stats,
+            black_stats=black_stats,
+            game_time=game_time,
+            parent=None,
+        )
+
+        parent_menu = self.parent()  # главное меню, если есть
+
+        def back_to_menu():
+            if parent_menu is not None:
+                parent_menu.show()
+
+        def play_again():
+            if parent_menu is not None:
+                new_game = MainWindow(self.white_name, self.black_name, parent=parent_menu)
+                new_game.show()
+
+        def show_history():
+            moves = getattr(self.chess_board.game, "moves_history", [])
+            text = "\n".join(moves) if moves else "Ходов нет."
+            QMessageBox.information(final, "История ходов", text)
+
+        final.menu_callback = back_to_menu
+        final.play_again_callback = play_again
+        final.history_callback = show_history
+
+        final.show()
+
+        # закрываем только окно игры; FinalWindow продолжает жить
+        self.close()
 
 
 if __name__ == "__main__":
