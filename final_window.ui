@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FinalWindow</class>
+ <widget class="QMainWindow" name="FinalWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>700</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Результат партии</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #fefefe;</string>
+  </property>
+
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="mainLayout">
+    <property name="leftMargin">
+     <number>30</number>
+    </property>
+    <property name="topMargin">
+     <number>20</number>
+    </property>
+    <property name="rightMargin">
+     <number>30</number>
+    </property>
+    <property name="bottomMargin">
+     <number>20</number>
+    </property>
+    <property name="spacing">
+     <number>18</number>
+    </property>
+
+    <!-- Результат игры -->
+    <item>
+     <widget class="QLabel" name="resultLabel">
+      <property name="text">
+       <string>Победили Белые по мату</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: #1e3a5f; background-color: #dbeafe; padding: 14px; border-radius: 16px; border: 1px solid #93c5fd;</string>
+      </property>
+     </widget>
+    </item>
+
+    <!-- Статистика игроков -->
+    <item>
+     <widget class="QGroupBox" name="statsGroupBox">
+      <property name="title">
+       <string>Статистика игроков</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox { font-weight: bold; border: 1px solid #d1d5db; border-radius: 8px; margin-top: 8px; } QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 4px; }</string>
+      </property>
+      <layout class="QVBoxLayout" name="statsLayout">
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <property name="bottomMargin">
+        <number>10</number>
+       </property>
+       <property name="spacing">
+        <number>6</number>
+       </property>
+
+       <item>
+        <widget class="QLabel" name="whiteStatsLabel">
+         <property name="text">
+          <string>Белые: 0 побед, 0 поражений, 0 ничьих</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: #111827;</string>
+         </property>
+        </widget>
+       </item>
+
+       <item>
+        <widget class="QLabel" name="blackStatsLabel">
+         <property name="text">
+          <string>Чёрные: 0 побед, 0 поражений, 0 ничьих</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: #111827;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+
+    <!-- Время партии -->
+    <item>
+     <widget class="QLabel" name="timeLabel">
+      <property name="text">
+       <string>Время партии: 00:00</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: #059669; padding: 10px; background-color: #ecfdf5; border-radius: 10px; border: 1px solid #a7f3d0;</string>
+      </property>
+     </widget>
+    </item>
+
+    <!-- Кнопки управления -->
+    <item>
+     <layout class="QHBoxLayout" name="buttonsLayout">
+      <property name="spacing">
+       <number>12</number>
+      </property>
+
+      <item>
+       <widget class="QPushButton" name="playAgainButton">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Играть снова</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+QPushButton {
+    color: white;
+    background-color: #3b82f6;
+    border: 1px solid #2563eb;
+    border-radius: 12px;
+    padding: 8px;
+    font-weight: bold;
+}
+QPushButton:hover {
+    background-color: #60a5fa;
+}
+QPushButton:pressed {
+    background-color: #2563eb;
+}
+         </string>
+        </property>
+       </widget>
+      </item>
+
+      <item>
+       <widget class="QPushButton" name="menuButton">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Меню</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+QPushButton {
+    color: white;
+    background-color: #60a5fa;
+    border: 1px solid #3b82f6;
+    border-radius: 12px;
+    padding: 8px;
+    font-weight: bold;
+}
+QPushButton:hover {
+    background-color: #93c5fd;
+}
+QPushButton:pressed {
+    background-color: #3b82f6;
+}
+         </string>
+        </property>
+       </widget>
+      </item>
+
+      <item>
+       <widget class="QPushButton" name="historyButton">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>История ходов</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+QPushButton {
+    color: white;
+    background-color: #34d399;
+    border: 1px solid #10b981;
+    border-radius: 12px;
+    padding: 8px;
+    font-weight: bold;
+}
+QPushButton:hover {
+    background-color: #6ee7b7;
+}
+QPushButton:pressed {
+    background-color: #10b981;
+}
+         </string>
+        </property>
+       </widget>
+      </item>
+
+      <item>
+       <widget class="QPushButton" name="exitButton">
+        <property name="minimumSize">
+         <size>
+          <width>90</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Выход</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+QPushButton {
+    color: white;
+    background-color: #ef4444;
+    border: 1px solid #dc2626;
+    border-radius: 12px;
+    padding: 8px;
+    font-weight: bold;
+}
+QPushButton:hover {
+    background-color: #f87171;
+}
+QPushButton:pressed {
+    background-color: #dc2626;
+}
+         </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+   </layout>
+  </widget>
+
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>700</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
