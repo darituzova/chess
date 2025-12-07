@@ -1,4 +1,6 @@
+# chess_board_widget.py
 import os
+
 from PyQt5.QtWidgets import (
     QGraphicsView,
     QGraphicsScene,
@@ -8,7 +10,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtGui import QPixmap, QPainter, QPen, QColor, QFont
 from PyQt5.QtCore import Qt
-from board import Board
+
 from game import Game
 
 
@@ -61,6 +63,7 @@ class ChessBoardWidget(QGraphicsView):
         super().__init__(parent)
 
         self.game = Game()
+
         self.scene = QGraphicsScene(self)
         self.setScene(self.scene)
 
@@ -82,6 +85,9 @@ class ChessBoardWidget(QGraphicsView):
         self.is_game_over = False
         self.parent_window = parent.window() if parent is not None else None
 
+        # колбэк, который устанавливается в MainWindow
+        self.game_over_callback = None
+
         # имена игроков
         self.white_player_name = "Белые"
         self.black_player_name = "Чёрные"
@@ -90,6 +96,8 @@ class ChessBoardWidget(QGraphicsView):
         self._draw_board()
         self._draw_coordinates()
         self._draw_pieces()
+
+    # --- связь с UI и именами ---
 
     def set_ui_elements(self, move_edit, player_label, timer_label):
         self.current_move_edit = move_edit
@@ -101,6 +109,8 @@ class ChessBoardWidget(QGraphicsView):
         self.white_player_name = white_name or "Белые"
         self.black_player_name = black_name or "Чёрные"
         self._update_player_info()
+
+    # --- ход из текстового поля ---
 
     def make_move_from_text(self):
         if self.is_game_over:
@@ -169,26 +179,38 @@ class ChessBoardWidget(QGraphicsView):
             QMessageBox.warning(self, "Ошибка", f"Неожиданная ошибка: {str(e)}")
             return False
 
+    # --- шах и мат ---
+
     def _handle_check_and_mate(self, color_under_attack):
         if self.game.board.is_checkmate(color_under_attack):
             self.is_game_over = True
             loser_ru = "белым" if color_under_attack == "white" else "черным"
             winner_ru = "Черные" if color_under_attack == "white" else "Белые"
-            QMessageBox.information(
-                self,
-                "Мат",
-                f"Мат {loser_ru}. Победили {winner_ru}.",
-            )
+            winner_color = "white" if color_under_attack == "black" else "black"
 
-            if self.parent_window is not None:
-                self.parent_window.close()
+            if self.game_over_callback:
+                self.game_over_callback(
+                    result_text=f"Мат {loser_ru}. Победили {winner_ru}.",
+                    winner_color=winner_color,
+                    loser_color=color_under_attack,
+                )
             else:
-                self.close()
+                QMessageBox.information(
+                    self,
+                    "Мат",
+                    f"Мат {loser_ru}. Победили {winner_ru}.",
+                )
+                if self.parent_window is not None:
+                    self.parent_window.close()
+                else:
+                    self.close()
             return
 
         if self.game.board.is_check(color_under_attack):
             color_ru = "белым" if color_under_attack == "white" else "черным"
             QMessageBox.information(self, "Шах", f"Шах {color_ru}!")
+
+    # --- вспомогательное ---
 
     def _move_player_to_board_coords(self, ceil_move):
         row = 7 - (int(ceil_move[1]) - 1)
@@ -209,6 +231,8 @@ class ChessBoardWidget(QGraphicsView):
         if style in ["classic", "basics"]:
             self.piece_style = style
             self._draw_pieces()
+
+    # --- рисование доски и фигур ---
 
     def _init_view(self):
         self.setFixedSize(
