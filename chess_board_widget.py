@@ -85,10 +85,8 @@ class ChessBoardWidget(QGraphicsView):
         self.is_game_over = False
         self.parent_window = parent.window() if parent is not None else None
 
-        # колбэк, который устанавливается в MainWindow
         self.game_over_callback = None
 
-        # имена игроков
         self.white_player_name = "Белые"
         self.black_player_name = "Чёрные"
 
@@ -97,7 +95,7 @@ class ChessBoardWidget(QGraphicsView):
         self._draw_coordinates()
         self._draw_pieces()
 
-    # --- связь с UI и именами ---
+    # ---------- связь с UI и именами ----------
 
     def set_ui_elements(self, move_edit, player_label, timer_label):
         self.current_move_edit = move_edit
@@ -110,7 +108,18 @@ class ChessBoardWidget(QGraphicsView):
         self.black_player_name = black_name or "Чёрные"
         self._update_player_info()
 
-    # --- ход из текстового поля ---
+    # ---------- палитра доски ----------
+
+    def _get_board_colors(self):
+        if self.piece_style == "basics":
+            light = QColor(230, 242, 255)   # светло-голубой
+            dark = QColor(90, 120, 160)     # синевато-серый
+        else:  # classic
+            light = QColor(240, 217, 181)
+            dark = QColor(181, 136, 99)
+        return light, dark
+
+    # ---------- ход из текстового поля ----------
 
     def make_move_from_text(self):
         if self.is_game_over:
@@ -127,7 +136,6 @@ class ChessBoardWidget(QGraphicsView):
             current_color = self.game.current_player
             is_in_check_before = self.game.board.is_check(current_color)
 
-            # рокировка: "рокировка k" / "рокировка q"
             if move_text == "рокировка k":
                 start_row, start_col, end_row, end_col = self.game.handle_castling(
                     "kingside"
@@ -179,7 +187,7 @@ class ChessBoardWidget(QGraphicsView):
             QMessageBox.warning(self, "Ошибка", f"Неожиданная ошибка: {str(e)}")
             return False
 
-    # --- шах и мат ---
+    # ---------- шах и мат ----------
 
     def _handle_check_and_mate(self, color_under_attack):
         if self.game.board.is_checkmate(color_under_attack):
@@ -210,7 +218,7 @@ class ChessBoardWidget(QGraphicsView):
             color_ru = "белым" if color_under_attack == "white" else "черным"
             QMessageBox.information(self, "Шах", f"Шах {color_ru}!")
 
-    # --- вспомогательное ---
+    # ---------- вспомогательное ----------
 
     def _move_player_to_board_coords(self, ceil_move):
         row = 7 - (int(ceil_move[1]) - 1)
@@ -230,9 +238,10 @@ class ChessBoardWidget(QGraphicsView):
     def set_piece_style(self, style):
         if style in ["classic", "basics"]:
             self.piece_style = style
+            self._draw_board()
             self._draw_pieces()
 
-    # --- рисование доски и фигур ---
+    # ---------- рисование доски и фигур ----------
 
     def _init_view(self):
         self.setFixedSize(
@@ -248,8 +257,7 @@ class ChessBoardWidget(QGraphicsView):
         pix.fill(Qt.transparent)
         painter = QPainter(pix)
 
-        light = QColor(240, 217, 181)
-        dark = QColor(181, 136, 99)
+        light, dark = self._get_board_colors()
 
         self.cell_coords.clear()
         for row in range(8):
