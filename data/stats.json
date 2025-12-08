@@ -1,12 +1,12 @@
 {
   "Белые": {
     "wins": 1,
-    "losses": 1,
-    "draws": 0
+    "losses": 2,
+    "draws": 1
   },
   "Чёрные": {
-    "wins": 1,
+    "wins": 2,
     "losses": 1,
-    "draws": 0
+    "draws": 1
   }
 }

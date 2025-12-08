@@ -120,7 +120,6 @@ class Game:
 
     # Попытка выполнить ход (с рокировкой, превращением и взятием на проходе)
     def try_move(self, start_row, start_col, end_row, end_col):
-        # Проверка наличия фигуры на начальной клетке
         try:
             start_figure = self.board.get_figure(start_row, start_col)
             if start_figure is None:
@@ -136,6 +135,9 @@ class Game:
             if self.board.is_correct_move(start_row, start_col, end_row, end_col, self.current_player):
                 start_figure = self.board.get_figure(start_row, start_col)
                 end_ceil = self.board.get_figure(end_row, end_col)
+
+                promotion_choice = None
+                promotion_happened = False
 
                 # Рокировка
                 if start_figure.figure_type == 'king' and abs(end_col - start_col) == 2:
@@ -169,13 +171,14 @@ class Game:
                         return False
                 else:
                     # Превращение пешки
-                    promotion_choice = None
                     if start_figure.figure_type == 'pawn' and (end_row == 0 or end_row == 7):
                         promotion_choice = self.get_promotion_choice()
                         self.board.promote_pawn(start_row, start_col, end_row, end_col, promotion_choice)
                         move_notation = self.generate_promotion_notation(
                             start_figure, end_row, end_col, promotion_choice, end_ceil
                         )
+                        promotion_happened = True
+
                     # Взятие на проходе
                     if start_figure.figure_type == 'pawn' and (end_row, end_col) == self.board.en_passant_target:
                         move_notation = self.generate_en_passant_notation(
@@ -190,10 +193,12 @@ class Game:
                         )
 
                 # Добавление символов шаха/мата в нотацию
-                if self.board.is_checkmate('black' if self.current_player == 'white' else 'white'):
-                    move_notation += '#'
-                elif self.board.is_check('black' if self.current_player == 'white' else 'white'):
-                    move_notation += '+'
+                opponent = 'black' if self.current_player == 'white' else 'white'
+                if not promotion_happened:
+                    if self.board.is_checkmate(opponent):
+                        move_notation += '#'
+                    elif self.board.is_check(opponent):
+                        move_notation += '+'
 
                 # Сохранение хода в историю
                 self.moves_history.append(move_notation)
@@ -205,6 +210,7 @@ class Game:
         except ValueError as e:
             print(f'Ошибка при обработке хода: {e}')
             return False
+
 
     # Нотация для обычного хода
     def generate_moves_notation(self, start_figure, start_row, start_col, end_row, end_col, end_ceil):

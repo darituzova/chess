@@ -211,14 +211,11 @@ class ChessBoardWidget(QGraphicsView):
             self.is_game_over = True
             loser_ru = 'белым' if color_under_attack == 'white' else 'черным'
             winner_ru = 'Черные' if color_under_attack == 'white' else 'Белые'
-            winner_color = 'white' if color_under_attack == 'black' else 'black'
 
             # Вызов callback или закрытие окна
             if self.game_over_callback:
                 self.game_over_callback(
-                    result_text=f'Мат {loser_ru}. Победили {winner_ru}.',
-                    winner_color=winner_color,
-                    loser_color=color_under_attack,
+                    result_text=f'Мат {loser_ru}. Победили {winner_ru}.'
                 )
             else:
                 QMessageBox.information(
