@@ -55,7 +55,7 @@ class Game:
                 self.game_over = True
             # Проверка шаха
             elif self.board.is_check('black' if self.current_player == 'white' else 'white'):
-                print(f'Шах игроку {"black" if self.current_player == "white" else "white"}!')
+                print(f'Шах игроку {'black' if self.current_player == 'white' else 'white'}!')
                 self.current_player = 'black' if self.current_player == 'white' else 'white'
                 self.moves_count += 1
                 self.print_moves_history()
@@ -240,25 +240,25 @@ class Game:
     # Выбор фигуры для превращения
     def get_promotion_choice(self):
         # Диалог выбора фигуры для превращения пешки
-        items = ["Ферзь (Q)", "Ладья (R)", "Слон (B)", "Конь (N)"]
+        items = ['Ферзь (Q)', 'Ладья (R)', 'Слон (B)', 'Конь (N)']
         item, ok = QInputDialog.getItem(
             None,
-            "Превращение пешки",
-            "Выберите фигуру:",
+            'Превращение пешки',
+            'Выберите фигуру:',
             items,
             0,
             False,
         )
         if not ok or item is None:
-            return "Q"
-        if item.startswith("Ферзь"):
-            return "Q"
-        if item.startswith("Ладья"):
-            return "R"
-        if item.startswith("Слон"):
-            return "B"
-        if item.startswith("Конь"):
-            return "N"
+            return 'Q'
+        if item.startswith('Ферзь'):
+            return 'Q'
+        if item.startswith('Ладья'):
+            return 'R'
+        if item.startswith('Слон'):
+            return 'B'
+        if item.startswith('Конь'):
+            return 'N'
         return 'Q'
 
     # История ходов
