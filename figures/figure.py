@@ -1,9 +1,8 @@
 # Класс фигуры (общее у фигур)
 class Figure:
 
-    # Инициализируем фигуру 
+    # Инициализиция фигуры
     def __init__(self, color, position, figure_type):
-        
         # Цвет, позиция, тип фигуры, и двигалась ли она (для пешки и рокировки)
         self.color = color
         self.position = position
