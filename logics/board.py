@@ -1,5 +1,6 @@
 from figures import Figure, Pawn, Knight, Bishop, Rook, Queen, King
 
+# Класс - доска
 class Board:
 
     # Cоздание пустой доски и расстановка фигур.
@@ -144,7 +145,7 @@ class Board:
             # Убираем цель для взятия на проходе
             self.en_passant_target = None
 
-    # роверяет, находится ли король игрока под шахом
+    # Проверка - находится ли король игрока под шахом
     def is_check(self, player_color):
 
         # Находим координаты короля игрока
@@ -167,7 +168,7 @@ class Board:
         # Король не под шахом
         return False
 
-    # Находит координаты короля заданного цвета
+    # Нахождение координат короля заданного цвета
     def find_king(self, player_color):
 
         # Перебираем все клетки
@@ -206,7 +207,7 @@ class Board:
         # Мат есть
         return True
 
-    # Симулируем ход для проверки мата
+    # Симуляция хода для проверки мата
     def simulate_move(self, start_row, start_col, end_row, end_col, callback):
 
         # Находим начальную и конечные клетки, и что на них
@@ -236,7 +237,7 @@ class Board:
 
         return check_result
 
-    # Проверяет, возможна ли рокировка для данного цвета и стороны
+    # Проверка - возможна ли рокировка для данного цвета и стороны
     def can_castle(self, color, side):
 
         king_row = 7 if color == 'white' else 0
@@ -289,7 +290,7 @@ class Board:
 
         return True
 
-    # Проверяет, находится ли клетка под атакой фигур противника
+    # Проверка - находится ли клетка под атакой фигур противника
     def is_under_attack(self, color, row, col):
 
         opponent_color = 'black' if color == 'white' else 'white'
@@ -309,7 +310,7 @@ class Board:
                         return True
         return False
 
-    # Превращает пешку в другую фигуру при достижении края доски
+    # Превращение пешки в другую фигуру при достижении края доски
     def promote_pawn(self, start_row, start_col, row, col, promotion_choice):
 
         # Определяем цвет пешки
