@@ -3,7 +3,7 @@ from .figure import Figure
 # Класс - король, от Figure
 class King(Figure):
     
-    # Инициализирует коня
+    # Инициализиция короля
     def __init__(self, color, position):
 
         # Вызываем __init__ из родительского класса, и передаем в него эти элементы
@@ -12,7 +12,7 @@ class King(Figure):
         # Символ, чтобы на доске отображать (маленькая - черная, большая - белая)
         self.symbol = 'K' if color == 'white' else 'k'
         
-    # Возвращает список возможных ходов для короля на доске
+    # Возвращение списка возможных ходов для короля на доске
     def get_correct_moves(self, board):
 
         # С чем работать будем: список с ходами, позиция, от которой считаем, и направление, куда король может походить, у него их 9
@@ -32,6 +32,7 @@ class King(Figure):
                 # Проверям, что либо эта клетка пуста, или на ней фигура другого цвета
                 if end_ceil is None or end_ceil.color != self.color:
                     moves.append((new_row, new_col))
+        
         # Добавляем возможность рокировки
         if not self.has_moved:
             if self.color == 'white':
